@@ -13,7 +13,6 @@ export default function useAuth(code) {
       .then((res) => {
         setAccessToken(res.data.response.access_token);
         window.history.pushState({}, null, "/dashboard");
-        console.log(accesssToken);
       })
       .catch((error) => {
         console.log(error);
