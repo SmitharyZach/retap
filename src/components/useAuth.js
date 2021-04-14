@@ -7,7 +7,7 @@ export default function useAuth(code) {
   const [accesssToken, setAccessToken] = useState();
   useEffect(() => {
     axios
-      .post(`/login`, {
+      .post(`https://retap.herokuapp.com/login`, {
         code,
       })
       .then((res) => {
