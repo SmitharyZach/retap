@@ -6,7 +6,7 @@ require("dotenv").config();
 const clientId = process.env.CLIENTID;
 const clientSecret = process.env.CLIENTSECRET;
 const { DateTime } = require("luxon");
-let detectedTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZssone;
+let detectedTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 if (detectedTimeZone === undefined || detectedTimeZone === null) {
   detectedTimeZone = "America/New_York";
@@ -36,6 +36,7 @@ export default function Dashboard({ code }) {
     "Pitching the yeast...",
     "Measuring the gravity...",
     "Writing the recipe...",
+    "Apologizing to Brian for the wait times...",
   ];
 
   // use effect to get user info
@@ -72,10 +73,21 @@ export default function Dashboard({ code }) {
             setIsLoading(false);
             localStorage.setItem("checkins", JSON.stringify(allCheckins));
           }
+        })
+        .catch((err) => {
+          setCheckins(allCheckins);
+          if (allCheckins.length != 0) {
+            setUsername(allCheckins[0].user.user_name);
+          }
+          setIsLoading(false);
+          localStorage.setItem("checkins", JSON.stringify(allCheckins));
+          return;
         });
     } else {
       let retrievedCheckins = JSON.parse(localStorageCheckins);
-      setUsername(retrievedCheckins[0].user.user_name);
+      if (allCheckins.length != 0) {
+        setUsername(allCheckins[0].user.user_name);
+      }
       setCheckins(retrievedCheckins);
       setIsLoading(false);
     }
@@ -128,6 +140,7 @@ export default function Dashboard({ code }) {
               key={checkin.checkin_id}
               checkin={checkin}
               detectedTimeZone={detectedTimeZone}
+              year={years}
             />
           ))}
         </div>
@@ -138,7 +151,7 @@ export default function Dashboard({ code }) {
   return (
     <div>
       {isLoading ? (
-        <div className="columns is-centered">
+        <div className="columns is-centered is-vcentered">
           <div className="column has-text-centered is-4 box">
             <h1>{loadingMessage}</h1>
           </div>

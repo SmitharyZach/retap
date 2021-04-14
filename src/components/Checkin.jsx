@@ -1,3 +1,10 @@
+import React from "react";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  TwitterIcon,
+} from "react-share";
 const { DateTime } = require("luxon");
 
 export default function Checkin(props) {
@@ -72,6 +79,18 @@ export default function Checkin(props) {
     );
   };
 
+  const showRating = () => {
+    if (checkin.rating_score === 0) {
+      return;
+    }
+    return (
+      <p style={{ marginBottom: "0rem" }}>
+        <b>Rating: </b>
+        {checkin.rating_score} Bottle Caps
+      </p>
+    );
+  };
+
   const showVenue = () => {
     if (
       venue === [] ||
@@ -115,10 +134,7 @@ export default function Checkin(props) {
                 <strong>{beer.beer_name}</strong>
                 <p style={{ marginBottom: "0rem" }}>{brewery.brewery_name}</p>
                 <p style={{ marginBottom: "0rem" }}>{beer.beer_style}</p>
-                <p style={{ marginBottom: "0rem" }}>
-                  <b>Rating: </b>
-                  {checkin.rating_score} Bottle Caps
-                </p>
+                {showRating()}
                 <p>{showComment()}</p>
               </div>
               <div className="media">
@@ -139,6 +155,26 @@ export default function Checkin(props) {
         </div>
         {showBadges()}
         {showPicture()}
+      </div>
+      <div className="is-flex is-flex-direction-row-reverse">
+        <FacebookShareButton
+          url={"https://retap.herokuapp.com/"}
+          quote={`Was drinking a ${beer.beer_name} ${props.year} ago today!`}
+          hashtag="#retap"
+          style={{
+            paddingLeft: "10px",
+          }}
+        >
+          {" "}
+          <FacebookIcon size={32} round />{" "}
+        </FacebookShareButton>
+
+        <TwitterShareButton
+          url={"https://retap.herokuapp.com/"}
+          title={`Was drinking a ${beer.beer_name} ${props.year} ago today!`}
+        >
+          <TwitterIcon size={32} round />
+        </TwitterShareButton>
       </div>
     </div>
   );
