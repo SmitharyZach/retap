@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const clientId = process.env.REACT_APP_CLIENTID;
 
-const AUTH_URL = `https://untappd.com/oauth/authenticate/?client_id=${clientId}&response_type=code&redirect_url=https://retap.herokuapp.com/`;
+const AUTH_URL = `https://untappd.com/oauth/authenticate/?client_id=${clientId}&response_type=code&redirect_url=https://retap.herokuapp.com`;
 
 export default function Login() {
   return (

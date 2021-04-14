@@ -10,6 +10,9 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "build")));
+
 app.post("/login", (req, res) => {
   const code = req.body.code;
   const getAccessToken = `https://untappd.com/oauth/authorize/?client_id=${clientId}&client_secret=${clientSecret}&response_type=code&redirect_url=https://retap.herokuapp.com&code=${code}`;
@@ -23,5 +26,4 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, "build")));
 app.listen(process.env.PORT || 3001);
